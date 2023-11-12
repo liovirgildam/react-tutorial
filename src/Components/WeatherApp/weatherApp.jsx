@@ -31,7 +31,7 @@ const weatherApp = () => {
 
     humidity[0].innerHTML = data.main.humidity + " %";
     wind[0].innerHTML = data.wind.speed + " km/h";
-    temperature[0].innerHTML = data.main.temp + "°C";
+    temperature[0].innerHTML = Math.round(data.main.temp) + "°C";
     location[0].innerHTML = data.name;
 
   }
