@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import './weatherApp.css'
 
 import search_icon from '../Assets/search.png'
@@ -10,9 +10,11 @@ import rain_icon from '../Assets/rain.png'
 import snow_icon from '../Assets/snow.png'
 import wind_icon from '../Assets/wind.png'
 
-const weatherApp = () => {
+const WeatherApp = () => {
 
   let api_key = process.env.REACT_APP_WEATHER_API;
+  
+  const[wicon, setWicon] = useState(cloud_icon);
 
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
@@ -29,10 +31,36 @@ const weatherApp = () => {
     const temperature = document.getElementsByClassName("weather-temp");
     const location = document.getElementsByClassName("weather-location");
 
+
     humidity[0].innerHTML = data.main.humidity + " %";
-    wind[0].innerHTML = data.wind.speed + " km/h";
-    temperature[0].innerHTML = Math.round(data.main.temp) + "°C";
+    wind[0].innerHTML = Math.floor(data.wind.speed) + " km/h";
+    temperature[0].innerHTML = Math.floor(data.main.temp) + "°C";
     location[0].innerHTML = data.name;
+
+    if(data.weather[0].icon === "01d" || data.weather[0].icon === "01n"){
+      setWicon(clear_icon);
+    }
+    else if(data.weather[0].icon === "02d" || data.weather[0].icon === "02n"){
+      setWicon(cloud_icon);
+    }
+    else if(data.weather[0].icon === "03d" || data.weather[0].icon === "03n"){
+      setWicon(drizzle_icon);
+    }
+    else if(data.weather[0].icon === "04d" || data.weather[0].icon === "04n"){
+      setWicon(drizzle_icon);
+    }
+    else if(data.weather[0].icon === "09d" || data.weather[0].icon === "09n"){
+      setWicon(rain_icon);
+    }
+    else if(data.weather[0].icon === "010d" || data.weather[0].icon === "010n"){
+      setWicon(rain_icon);
+    }
+    else if(data.weather[0].icon === "013d" || data.weather[0].icon === "013n"){
+      setWicon(snow_icon);
+    }
+    else{
+      setWicon(clear_icon);
+    }
 
   }
 
@@ -45,7 +73,7 @@ const weatherApp = () => {
         </div>
       </div>
       <div className="weather-image">
-        <img src={cloud_icon} alt="Cloud Icon" />
+        <img src={wicon} alt="Cloud Icon" />
       </div>
       <div className="weather-temp">24C</div>
       <div className="weather-location">London</div>
@@ -69,4 +97,4 @@ const weatherApp = () => {
   )
 }
 
-export default weatherApp;
+export default WeatherApp;
